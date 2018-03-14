@@ -26,5 +26,9 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.4'
+	compile('org.projectlombok:lombok:1.16.20')
+    compile group: 'org.springframework', name: 'spring-web', version: '5.0.4.RELEASE'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+
 }
