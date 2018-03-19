@@ -6,7 +6,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -16,7 +20,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class CoinmarketcapClientTest {
 
-    String COIN_MARKET_URL = "https://api.coinmarketcap.com/v1/ticker/biztcoin/";
+    String COIN_MARKET_URL = "https://api.coinmarketcap.com/v1/ticker/bitcoin/";
 
     @InjectMocks
     private CoinmarketcapClient coinmarketcapClient;
@@ -27,11 +31,15 @@ public class CoinmarketcapClientTest {
     @Test
     public void shouldGetPriceFromMarketCapApi() {
 
-        CoinmarketcapResponse expectedResponse = new CoinmarketcapResponse("bitcoin", "9.91");
-        when(restTemplate.getForObject(COIN_MARKET_URL, CoinmarketcapResponse.class)).thenReturn(expectedResponse);
+        CoinmarketcapResponse coin = new CoinmarketcapResponse("bitcoin", "9.91");
+        CoinmarketcapResponse[] array = new CoinmarketcapResponse[]{coin};
+        ResponseEntity<CoinmarketcapResponse[]> expectedResponse = new ResponseEntity<>(array, HttpStatus.OK);
 
-        CoinmarketcapResponse actualResponse = coinmarketcapClient.getPrice();
-        assertThat(expectedResponse, is(actualResponse));
+        when(restTemplate.getForEntity(COIN_MARKET_URL, CoinmarketcapResponse[].class))
+                .thenReturn(expectedResponse);
+
+        Optional<CoinmarketcapResponse> actualResponse = coinmarketcapClient.getPrice();
+        assertThat(Optional.ofNullable(coin), is(actualResponse));
 
     }
 

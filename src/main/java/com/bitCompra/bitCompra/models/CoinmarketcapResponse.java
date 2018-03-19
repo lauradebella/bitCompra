@@ -1,11 +1,30 @@
 package com.bitCompra.bitCompra.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CoinmarketcapResponse {
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPrice_usd() {
+        return price_usd;
+    }
+
     private String name;
     private String price_usd;
+
+    @JsonCreator
+    public CoinmarketcapResponse(@JsonProperty("name") String name,
+                                 @JsonProperty("price_usd")String price_usd) {
+        this.name = name;
+        this.price_usd = price_usd;
+    }
 }

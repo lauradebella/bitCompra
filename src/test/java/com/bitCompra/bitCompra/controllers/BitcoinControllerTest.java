@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Optional;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -27,11 +29,11 @@ public class BitcoinControllerTest {
     public void shouldGetPriceFromCoinmarketcap (){
         String coinPrice = "91.00";
         String coinName = "bitcoin";
-        CoinmarketcapResponse expectedResponse = new CoinmarketcapResponse(coinName, coinPrice);
+        Optional<CoinmarketcapResponse> expectedResponse = Optional.of(new CoinmarketcapResponse(coinName, coinPrice));
 
         when(coinmarketcapClient.getPrice()).thenReturn(expectedResponse);
 
-        CoinmarketcapResponse actualResponse = bitcoinController.getPriceFromCoinmarketcap();
+        Optional<CoinmarketcapResponse> actualResponse = bitcoinController.getPriceFromCoinmarketcap();
 
         assertThat(actualResponse, is(expectedResponse));
     }
