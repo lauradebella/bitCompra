@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
 public class BitcoinController {
+
+    private String dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
 
     @Autowired
     CoinmarketcapClient coinmarketcapClient;
@@ -21,20 +25,17 @@ public class BitcoinController {
 
     @RequestMapping("/price")
     public Optional<CoinmarketcapResponse> getPriceFromCoinmarketcap() {
-        return coinmarketcapClient.getPrice();
-    }
+        Optional<CoinmarketcapResponse> consultaCoinMarketcap = coinmarketcapClient.getPrice();
 
-    @GetMapping(path="/addConsulta")
-    public @ResponseBody
-    String addNewConsulta (@RequestParam String fonte, @RequestParam String preco, @RequestParam String horario){
         ConsultaPreco consultaPreco = new ConsultaPreco();
-        consultaPreco.setFonte(fonte);
+        consultaPreco.setFonte("CoinmarketCap");
+        String horario =  new SimpleDateFormat(dateTimeFormat).format(new Date());
         consultaPreco.setHorario(horario);
-        consultaPreco.setPreco(preco);
+        consultaPreco.setPreco("U$"consultaCoinMarketcap.get().getPrice());
 
         consultaPrecoRepository.save(consultaPreco);
 
-        return "Saved";
+        return consultaCoinMarketcap;
     }
 
     @GetMapping(path="/all")

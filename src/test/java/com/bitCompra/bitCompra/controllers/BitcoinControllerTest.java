@@ -1,7 +1,9 @@
 package com.bitCompra.bitCompra.controllers;
 
 import com.bitCompra.bitCompra.clients.CoinmarketcapClient;
+import com.bitCompra.bitCompra.entities.ConsultaPreco;
 import com.bitCompra.bitCompra.models.CoinmarketcapResponse;
+import com.bitCompra.bitCompra.repositories.ConsultaPrecoRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +15,10 @@ import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -25,8 +30,11 @@ public class BitcoinControllerTest {
     @Mock
     CoinmarketcapClient coinmarketcapClient;
 
+    @Mock
+    ConsultaPrecoRepository consultaPrecoRepository;
+
     @Test
-    public void shouldGetPriceFromCoinmarketcap (){
+    public void shouldGetPriceFromCoinmarketcapAndSaveInDatabase (){
         String coinPrice = "91.00";
         String coinName = "bitcoin";
         Optional<CoinmarketcapResponse> expectedResponse = Optional.of(new CoinmarketcapResponse(coinName, coinPrice));
@@ -34,6 +42,7 @@ public class BitcoinControllerTest {
         when(coinmarketcapClient.getPrice()).thenReturn(expectedResponse);
 
         Optional<CoinmarketcapResponse> actualResponse = bitcoinController.getPriceFromCoinmarketcap();
+        verify(consultaPrecoRepository, times(1)).save(any());
 
         assertThat(actualResponse, is(expectedResponse));
     }
