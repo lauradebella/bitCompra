@@ -1,8 +1,10 @@
 package com.bitCompra.bitCompra.controllers;
 
 import com.bitCompra.bitCompra.clients.CoinmarketcapClient;
+import com.bitCompra.bitCompra.clients.QueryClientInterface;
 import com.bitCompra.bitCompra.entities.ConsultaPreco;
 import com.bitCompra.bitCompra.models.CoinmarketcapResponse;
+import com.bitCompra.bitCompra.models.QueryResponseInterface;
 import com.bitCompra.bitCompra.repositories.ConsultaPrecoRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +27,7 @@ public class BitcoinControllerTest {
     BitcoinController bitcoinController;
 
     @Mock
-    CoinmarketcapClient coinmarketcapClient;
+    QueryClientInterface queryClientInterface;
 
     @Mock
     ConsultaPrecoRepository consultaPrecoRepository;
@@ -34,11 +36,11 @@ public class BitcoinControllerTest {
     public void shouldGetPriceFromCoinmarketcapAndSaveInDatabase (){
         String coinPrice = "91.00";
         String coinName = "bitcoin";
-        CoinmarketcapResponse expectedResponse = new CoinmarketcapResponse(coinName, coinPrice);
+        QueryResponseInterface expectedResponse = new CoinmarketcapResponse(coinName, coinPrice);
 
-        when(coinmarketcapClient.getPrice()).thenReturn(expectedResponse);
+        when(queryClientInterface.getPrice()).thenReturn(expectedResponse);
 
-        CoinmarketcapResponse actualResponse = bitcoinController.getPriceFromCoinmarketcap();
+        QueryResponseInterface actualResponse = bitcoinController.getPriceFromCoinmarketcap();
         verify(consultaPrecoRepository, times(1)).save(any());
 
         assertThat(actualResponse, is(expectedResponse));

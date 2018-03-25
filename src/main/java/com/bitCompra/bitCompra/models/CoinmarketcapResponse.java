@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class CoinmarketcapResponse {
+public class CoinmarketcapResponse implements QueryResponseInterface{
 
     private String name;
     private String price;

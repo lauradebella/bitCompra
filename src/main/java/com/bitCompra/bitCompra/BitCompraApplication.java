@@ -13,8 +13,4 @@ public class BitCompraApplication {
 		SpringApplication.run(BitCompraApplication.class, args);
 	}
 
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
-    }
 }
