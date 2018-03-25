@@ -10,11 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Optional;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -38,8 +35,8 @@ public class CoinmarketcapClientTest {
         when(restTemplate.getForEntity(COIN_MARKET_URL, CoinmarketcapResponse[].class))
                 .thenReturn(expectedResponse);
 
-        Optional<CoinmarketcapResponse> actualResponse = coinmarketcapClient.getPrice();
-        assertThat(Optional.ofNullable(coin), is(actualResponse));
+        CoinmarketcapResponse actualResponse = coinmarketcapClient.getPrice();
+        assertThat(coin, is(actualResponse));
 
     }
 

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class CoinmarketcapResponse {
 
     private String name;

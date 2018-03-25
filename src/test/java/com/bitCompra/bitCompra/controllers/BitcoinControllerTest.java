@@ -36,11 +36,11 @@ public class BitcoinControllerTest {
     public void shouldGetPriceFromCoinmarketcapAndSaveInDatabase (){
         String coinPrice = "91.00";
         String coinName = "bitcoin";
-        Optional<CoinmarketcapResponse> expectedResponse = Optional.of(new CoinmarketcapResponse(coinName, coinPrice));
+        CoinmarketcapResponse expectedResponse = new CoinmarketcapResponse(coinName, coinPrice);
 
         when(coinmarketcapClient.getPrice()).thenReturn(expectedResponse);
 
-        Optional<CoinmarketcapResponse> actualResponse = bitcoinController.getPriceFromCoinmarketcap();
+        CoinmarketcapResponse actualResponse = bitcoinController.getPriceFromCoinmarketcap();
         verify(consultaPrecoRepository, times(1)).save(any());
 
         assertThat(actualResponse, is(expectedResponse));

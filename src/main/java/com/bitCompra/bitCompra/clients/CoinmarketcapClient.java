@@ -7,9 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 @Component
 public class CoinmarketcapClient {
 
@@ -18,11 +15,11 @@ public class CoinmarketcapClient {
     @Autowired
     RestTemplate restTemplate;
 
-    public Optional<CoinmarketcapResponse> getPrice() {
+    public CoinmarketcapResponse getPrice() {
         ResponseEntity<CoinmarketcapResponse[]> responseEntity = restTemplate.getForEntity(COIN_MARKET_URL, CoinmarketcapResponse[].class);
         if(responseEntity.getStatusCode() != HttpStatus.OK){
             return null;
         }
-        return Arrays.stream(responseEntity.getBody()).findFirst();
+        return responseEntity.getBody()[0];
     }
 }

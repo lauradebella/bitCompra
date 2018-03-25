@@ -1,8 +1,6 @@
 package com.bitCompra.bitCompra;
 
-import com.bitCompra.bitCompra.controllers.BitcoinController;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
